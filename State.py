@@ -41,75 +41,54 @@ class State:
         return True
 
     def has_won(self):
-        # if self.move == 11:
-        #     # this is the case of the last move being a flip, so we have to test the whole board
-        #     for column in range(len(self.board)):
-        #         for row in range(len(self.board[column])):
-        #             field = self.board[column][row]
-        #             if field == 0:
-        #                 continue
-        #             if not out_of_bounds(column + 4, row):  # look right
-        #                 for index in range(5):
-        #                     if self.board[column + index][row] != field: break
-        #                     return True
-        #             if not out_of_bounds(column + 4, row + 4):  # look right-up
-        #                 for index in range(5):
-        #                     if self.board[column + index][row + index] != field: break
-        #                     return True
-        #             if not out_of_bounds(column, row + 4):  # look up
-        #                 for index in range(5):
-        #                     if self.board[column][row + index] != field: break
-        #                     return True
-        #
-        #             if not out_of_bounds(column - 4, row + 4):  # look up-left
-        #                 for index in range(5):
-        #                     if self.board[column - index][row + index] != field: break
-        #                     return True
-        #     return False
-        # this is the case of the last move being a flip, so we have to test the whole board
-        for column in range(len(self.board)):
-            for row in range(len(self.board[column])):
-                field = self.board[column][row]
-                if field == 0:
-                    continue
-                if not out_of_bounds(column + 4, row):  # look right
-                    for index in range(5):
-                        if self.board[column + index][row] != field: break
-                        return True
-                if not out_of_bounds(column + 4, row + 4):  # look right-up
-                    for index in range(5):
-                        if self.board[column + index][row + index] != field: break
-                        return True
-                if not out_of_bounds(column, row + 4):  # look up
-                    for index in range(5):
-                        if self.board[column][row + index] != field: break
-                        return True
+        if self.move == None: return False
+        if self.move == 11:
+            # this is the case of the last move being a flip, so we have to test the whole board
+            for column in range(len(self.board)):
+                for row in range(len(self.board[column])):
+                    field = self.board[column][row]
+                    if field == 0:
+                        continue
+                    if not out_of_bounds(column + 4, row):  # look right
+                        for index in range(5):
+                            if self.board[column + index][row] != field: break
+                            return True
+                    if not out_of_bounds(column + 4, row + 4):  # look right-up
+                        for index in range(5):
+                            if self.board[column + index][row + index] != field: break
+                            return True
+                    if not out_of_bounds(column, row + 4):  # look up
+                        for index in range(5):
+                            if self.board[column][row + index] != field: break
+                            return True
 
-                if not out_of_bounds(column - 4, row + 4):  # look up-left
-                    for index in range(5):
-                        if self.board[column - index][row + index] != field: break
-                        return True
-        return False
+                    if not out_of_bounds(column - 4, row + 4):  # look up-left
+                        for index in range(5):
+                            if self.board[column - index][row + index] != field: break
+                            return True
+            return False
 
-    # else:
-    #     # this is the case of any other move, meaning we can just check the top value of that column for a win
-    #     field_index_x = self.move
-    #     field_index_y = len(self.board[self.move]) - 1
-    #     field_indices = [field_index_x, field_index_y]
-    #     temporary_board = self.get_padded_board()
-    #     possible_directions = [
-    #         [1, 0],  # right
-    #         [1, -1],  # right_down
-    #         [0, -1],  # down
-    #         [-1, -1],  # down_left
-    #         [-1, 0],  # left
-    #         [-1, 1],  # up_left
-    #         [1, 1]  # up_right
-    #     ]
-    #     for direction in possible_directions:
-    #         if check_direction(field_indices, direction[0], direction[1], temporary_board, self.player):
-    #             return True
-    #     return False
+
+
+        else:
+            # this is the case of any other move, meaning we can just check the top value of that column for a win
+            field_index_x = self.move
+            field_index_y = len(self.board[self.move]) - 1
+            field_indices = [field_index_x, field_index_y]
+            temporary_board = self.get_padded_board()
+            possible_directions = [
+                [1, 0],  # right
+                [1, -1],  # right_down
+                [0, -1],  # down
+                [-1, -1],  # down_left
+                [-1, 0],  # left
+                [-1, 1],  # up_left
+                [1, 1]  # up_right
+            ]
+            for direction in possible_directions:
+                if check_direction(field_indices, direction[0], direction[1], temporary_board, self.player):
+                    return True
+            return False
 
     def get_padded_board(self):
         temporary_board = self.board

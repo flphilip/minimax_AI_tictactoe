@@ -54,10 +54,19 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
         return [value, move]
 
 
+def iterative_deepening_search(start: Node, max_depth: int):
+    eval = 0
+    move = -1
+    for iteration in range(1, max_depth):
+        eval, move = alpha_beta_search(start, iteration, -math.inf, math.inf)
+        # future: write this to a txt file
+    return eval, move
+
 def main():
     a = State()
     begin = Node(a)
-    print(alpha_beta_search(begin, 30, - math.inf, math.inf))
+    print(iterative_deepening_search(begin,20))
+    # print(alpha_beta_search(begin, 2, - math.inf, math.inf))
 
 
 if __name__ == "__main__":
