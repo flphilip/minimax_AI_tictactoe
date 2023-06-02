@@ -1,7 +1,8 @@
-def out_of_bounds(x,y) -> bool:
+def out_of_bounds(x, y) -> bool:
     if x > 10 or x < 0: return True
     if y > 7 or y < 0: return True
     return False
+
 
 def check_direction(starting_indices, x_plus, y_plus, board, player) -> bool:
     field_index_x = starting_indices[0]

@@ -13,7 +13,7 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
     :return:
     """
     if parent_node.state.has_won():
-        return [10_000, parent_node.state.move ] \
+        return [10_000, parent_node.state.move] \
             if parent_node.state.player == 1 \
             else [-10_000, parent_node.state.move]
     if depth == 0: return [parent_node.state.evaluate_position(), parent_node.state.move]
@@ -24,7 +24,10 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
 
         for child in children:
             childeval = alpha_beta_search(child, depth - 1, alpha, beta)
-            value, move = max(value, childeval[0]), childeval[1]
+            if childeval[0] > value:
+                value = childeval[0]
+                move = childeval[1]
+
             alpha = max(alpha, value)
             if value >= beta:
                 break
@@ -41,7 +44,9 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
         move = -1
         for child in children:
             childeval = alpha_beta_search(child, depth - 1, alpha, beta)
-            value, move = min(value, childeval[0]), childeval[1]
+            if childeval[0] < value:
+                value = childeval[0]
+                move = childeval[1]
             beta = min(beta, value)
             if value <= alpha:
                 break
