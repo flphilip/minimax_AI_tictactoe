@@ -129,11 +129,10 @@ class State:
         return string
 
     def throw_in(self, column: int):
-        newState = self
-        newState.move = column
-        newState.board[column].append(newState.player)
-        newState.player = 1 if newState.player == 2 else 2
-        return newState
+        self.move = column
+        self.board[column].append(self.player)
+        self.player = 1 if self.player == 2 else 2
+
 
     def flipped(self, player) -> bool:
         if player == 1: return self.flipped1
@@ -175,7 +174,7 @@ class State:
 
     def evaluate_position(self):
         """
-        Chat GPT made, has some problems, better than nothing I guess, but I will change this later
+        Chat GPT made, absolute trash, better than nothing I guess, but I will change this later
         Evaluates the static position of a Connect 5 game board.
 
         Parameters:
@@ -185,7 +184,8 @@ class State:
 
         Returns:
         - evaluation: An integer representing the evaluation of the position. Positive values indicate an advantage
-                      for the player, negative values indicate an advantage for the opponent, and zero indicates a neutral position.
+                      for the player, negative values indicate an advantage for the opponent, and zero indicates
+                      a neutral position.
         """
         board = self.get_padded_board()
         player = 1  # Player's pieces

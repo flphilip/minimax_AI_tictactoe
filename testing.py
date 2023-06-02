@@ -4,9 +4,7 @@ from State import State
 
 def main():
     a = State()
-    testNode = Node(a)
-    print(testNode.expand_node())
-
+    a.throw_in(1)
 
 
 

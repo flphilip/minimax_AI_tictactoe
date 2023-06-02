@@ -54,10 +54,6 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
         return [value, move]
 
 
-# GENERAL NOTES
-# consider making expand node a function of the node class instead of free method
-
-
 def main():
     a = State()
     begin = Node(a)

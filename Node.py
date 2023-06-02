@@ -1,6 +1,7 @@
 import State
 import copy
 
+
 class Node:
     """
     Node class to represent various states the board can be in connect 5
