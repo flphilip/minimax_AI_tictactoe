@@ -16,17 +16,18 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
         return [10_000, parent_node.state.move] \
             if parent_node.state.player == 1 \
             else [-10_000, parent_node.state.move]
-    if depth == 0: return [parent_node.state.evaluate_position(), parent_node.state.move]
+    if depth == 0:
+        return [parent_node.state.evaluate_position(), parent_node.state.move]
     children = parent_node.expand_node()
     if parent_node.maxPlayer:
         value = - math.inf
         move = -1
 
         for child in children:
-            childeval = alpha_beta_search(child, depth - 1, alpha, beta)
-            if childeval[0] > value:
-                value = childeval[0]
-                move = childeval[1]
+            child_eval = alpha_beta_search(child, depth - 1, alpha, beta)
+            if child_eval[0] > value:
+                value = child_eval[0]
+                move = child_eval[1]
 
             alpha = max(alpha, value)
             if value >= beta:
@@ -43,10 +44,10 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
         value = math.inf
         move = -1
         for child in children:
-            childeval = alpha_beta_search(child, depth - 1, alpha, beta)
-            if childeval[0] < value:
-                value = childeval[0]
-                move = childeval[1]
+            child_eval = alpha_beta_search(child, depth - 1, alpha, beta)
+            if child_eval[0] < value:
+                value = child_eval[0]
+                move = child_eval[1]
             beta = min(beta, value)
             if value <= alpha:
                 break
