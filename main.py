@@ -6,15 +6,17 @@ import math
 def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
     """
     subroutine intended to be used in an iterative deepening search for minimax algorithm
+    :param known:
     :param parent_node:
     :param depth:
     :param alpha:
     :param beta:
     :return:
     """
+
     if parent_node.state.has_won():
         return [10_000, parent_node.state.move] \
-            if parent_node.state.player == 1 \
+            if parent_node.state.player == 2 \
             else [-10_000, parent_node.state.move]
     if depth == 0:
         return [parent_node.state.evaluate_position(), parent_node.state.move]
@@ -55,17 +57,18 @@ def alpha_beta_search(parent_node: Node, depth: int, alpha, beta):
 
 
 def iterative_deepening_search(start: Node, max_depth: int):
-    eval = 0
+    evaluation = 0
     move = -1
     for iteration in range(1, max_depth):
-        eval, move = alpha_beta_search(start, iteration, -math.inf, math.inf)
+        evaluation, move = alpha_beta_search(start, iteration, -math.inf, math.inf)
         # future: write this to a txt file
-    return eval, move
+    return evaluation, move
+
 
 def main():
     a = State()
     begin = Node(a)
-    print(iterative_deepening_search(begin,20))
+    print(iterative_deepening_search(begin, 4))
     # print(alpha_beta_search(begin, 2, - math.inf, math.inf))
 
 
@@ -74,4 +77,3 @@ if __name__ == "__main__":
 
 # current problems:
 # evaluation function is trash
-# has won causes some sort of error on non-specific move location case (not flip)

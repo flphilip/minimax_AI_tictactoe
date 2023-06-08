@@ -41,7 +41,7 @@ class State:
         return True
 
     def has_won(self):
-        if self.move == None: return False
+        if self.move is None: return False
         if self.move == 11:
             # this is the case of the last move being a flip, so we have to test the whole board
             for column in range(len(self.board)):
@@ -67,8 +67,6 @@ class State:
                             if self.board[column - index][row + index] != field: break
                             return True
             return False
-
-
 
         else:
             # this is the case of any other move, meaning we can just check the top value of that column for a win
@@ -112,7 +110,6 @@ class State:
         self.board[column].append(self.player)
         self.player = 1 if self.player == 2 else 2
 
-
     def flipped(self, player) -> bool:
         if player == 1: return self.flipped1
         if player == 2: return self.flipped2
@@ -151,93 +148,8 @@ class State:
 
         pass
 
+    def __hash__(self):
+        return self.player  + sum(self.board[0])
+
     def evaluate_position(self):
-        """
-        Chat GPT made, absolute trash, better than nothing I guess, but I will change this later
-        Evaluates the static position of a Connect 5 game board.
-
-        Parameters:
-        - board: A 2D list representing the Connect 5 game board. It should have dimensions of 8x11,
-                 with 1 representing the player's pieces, 2 representing the opponent's pieces,
-                 and 0 representing empty fields.
-
-        Returns:
-        - evaluation: An integer representing the evaluation of the position. Positive values indicate an advantage
-                      for the player, negative values indicate an advantage for the opponent, and zero indicates
-                      a neutral position.
-        """
-        board = self.get_padded_board()
-        player = 1  # Player's pieces
-        opponent = 2  # Opponent's pieces
-        rows, cols = len(board), len(board[0])
-        evaluation = 0
-
-        # Check rows
-        for i in range(rows):
-            for j in range(cols - 4):
-                line = board[i][j:j + 5]
-                if line.count(player) == 5:
-                    evaluation += 10000
-                elif line.count(player) == 4 and line.count(0) == 1:
-                    evaluation += 100
-                elif line.count(player) == 3 and line.count(0) == 2:
-                    evaluation += 10
-                elif line.count(opponent) == 5:
-                    evaluation -= 10000
-                elif line.count(opponent) == 4 and line.count(0) == 1:
-                    evaluation -= 100
-                elif line.count(opponent) == 3 and line.count(0) == 2:
-                    evaluation -= 10
-
-        # Check columns
-        for j in range(cols):
-            for i in range(rows - 4):
-                line = [board[x][j] for x in range(i, i + 5)]
-                if line.count(player) == 5:
-                    evaluation += 10000
-                elif line.count(player) == 4 and line.count(0) == 1:
-                    evaluation += 100
-                elif line.count(player) == 3 and line.count(0) == 2:
-                    evaluation += 10
-                elif line.count(opponent) == 5:
-                    evaluation -= 10000
-                elif line.count(opponent) == 4 and line.count(0) == 1:
-                    evaluation -= 100
-                elif line.count(opponent) == 3 and line.count(0) == 2:
-                    evaluation -= 10
-
-        # Check diagonals (top-left to bottom-right)
-        for i in range(rows - 4):
-            for j in range(cols - 4):
-                line = [board[i + x][j + x] for x in range(5)]
-                if line.count(player) == 5:
-                    evaluation += 10000
-                elif line.count(player) == 4 and line.count(0) == 1:
-                    evaluation += 100
-                elif line.count(player) == 3 and line.count(0) == 2:
-                    evaluation += 10
-                elif line.count(opponent) == 5:
-                    evaluation -= 10000
-                elif line.count(opponent) == 4 and line.count(0) == 1:
-                    evaluation -= 100
-                elif line.count(opponent) == 3 and line.count(0) == 2:
-                    evaluation -= 10
-
-        # Check diagonals (top-right to bottom-left)
-        for i in range(rows - 4):
-            for j in range(cols - 1, 3, -1):
-                line = [board[i + x][j - x] for x in range(5)]
-                if line.count(player) == 5:
-                    evaluation += 10000
-                elif line.count(player) == 4 and line.count(0) == 1:
-                    evaluation += 100
-                elif line.count(player) == 3 and line.count(0) == 2:
-                    evaluation += 10
-                elif line.count(opponent) == 5:
-                    evaluation -= 10000
-                elif line.count(opponent) == 4 and line.count(0) == 1:
-                    evaluation -= 100
-                elif line.count(opponent) == 3 and line.count(0) == 2:
-                    evaluation -= 10
-
-        return evaluation
+        return 0
