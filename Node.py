@@ -16,7 +16,7 @@ class Node:
         self.maxPlayer = True if self.state.player == 1 else False
         self.parent = parent
         self.children = []
-        self.move = state.move
+        self.move = state.last_move
 
     def expand_node(self):
         """
