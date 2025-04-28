@@ -4,22 +4,22 @@ class State:
         if len(position) != 9:
             raise Exception("Invalid position was entered")
         self.position = position
-        self.player = 1
         self.winner = None
         self.possible_moves = [i for i in range(9)]
         self.last_move = None
+        self.draw = False
+        self.is_terminal = False
 
-    def make_move(self, pos, debug_player = None):
+    def make_move(self, pos, player):
         if pos not in self.possible_moves:
             raise Exception("Invalid move")
-        if debug_player:
-            player = debug_player
-        else:
-            player = self.player
-            self.player = (self.player - 1) % 2
+
         self.last_move = pos
         self.position[pos] = player
         self.possible_moves.remove(pos)
+        if self.possible_moves == []:
+            self.is_terminal = True
+            self.draw = True
 
 
        
@@ -34,6 +34,7 @@ class State:
         has_won |= (self.position[2] == self.position[4] == self.position[6] == player)
 
         if has_won: 
+            self.is_terminal = True
             self.winner = player
 
     def print_board(self):
@@ -46,13 +47,14 @@ class State:
 
 
 if __name__ == "__main__":
-    test = State()
-    test.make_move(2)
-    test.make_move(4)
-    test.make_move(3)
-    test.make_move(8)
-    test.make_move(6)
-    test.make_move(0)
-    print(test.possible_moves)
-    test.print_board()
-    print(test.winner)
+    felix_game = State()
+    felix_game.make_move(8,0)
+    felix_game.make_move(4,1)
+    felix_game.make_move(6,0)
+    felix_game.make_move(7,1)
+    felix_game.make_move(5,0)
+    felix_game.make_move(1,1)
+
+    print(felix_game.possible_moves)
+    felix_game.print_board()
+    print(felix_game.winner)
