@@ -64,7 +64,8 @@ def iterative_deepening_search(start: Node, max_depth: int):
         # future: write this to a txt file
     return evaluation, move
 
-
+def minimax():
+    pass
 def main():
     a = State()
     begin = Node(a)
@@ -75,5 +76,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# current problems:
-# evaluation function is trash

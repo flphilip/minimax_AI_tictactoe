@@ -18,9 +18,6 @@ class Node:
         self.children = []
         self.move = state.move
 
-    def __repr__(self):
-        return self.state.__repr__()
-
     def expand_node(self):
         """
         function that generates all valid children of this node
@@ -29,15 +26,6 @@ class Node:
         children = []
         for move in self.state.possible_moves:
             new_State = copy.deepcopy(self.state)
-            new_State.throw_in(move)
+            new_State.make_move(move)
             children.append(Node(new_State, self))
-
-        if not self.state.flipped(self.state.player):
-            new_State = copy.deepcopy(self.state)
-            new_State.flip()
-            children.append(Node(new_State, self))
-
-        for child in children:
-            if not child.state.is_valid():
-                children.remove(child)
         return children
