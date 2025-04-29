@@ -1,6 +1,6 @@
 
 class State:
-    def __init__(self, position=["-1"] * 9):
+    def __init__(self, position=["  "] * 9):
         if len(position) != 9:
             raise Exception("Invalid position was entered")
         self.position = position
@@ -10,7 +10,7 @@ class State:
         self.draw = False
         self.is_terminal = False
 
-    def make_move(self, pos, player):
+    def make_move(self, pos, player:str):
         if pos not in self.possible_moves:
             raise Exception("Invalid move")
 
@@ -43,7 +43,7 @@ class State:
             b = self.position[i*3 + 1]
             c = self.position[i*3 + 2]
             print(f"{a} | {b} | {c}")
-            if i != 2: print("----------")
+            if i != 2: print("------------")
 
 
 if __name__ == "__main__":
