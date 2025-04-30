@@ -16,15 +16,23 @@ class TicTacToeGUI:
 
         # Create the 3x3 button grid
         for i in range(9):
-            btn = tk.Button(root, text=" ", font=font, bg="lightgray", activebackground="lightblue", width=10, height=4,
+            btn = tk.Button(root, text=" ", font=font, bg="lightgray", activebackground="lightblue", width=10, height=4,  relief="raised", borderwidth=3,
                             command=lambda idx=i: self.on_click(idx))
             btn.grid(row=i // 3, column=i % 3)
             self.buttons.append(btn)
 
         # Reset button
         self.reset_button = tk.Button(root, font=font, text="Reset", command=self.reset_game)
-        self.reset_button.grid(row=3, column=0, columnspan=3, sticky="nsew")
+        self.reset_button.grid(row=3, column=0, columnspan=2, sticky="nsew")
 
+        # turn on AI checkbox
+        self.AI_enabled = False
+        self.checkbox = tk.Checkbutton(root, font=font, text="Turn on AI", command=self.enable_AI)
+        self.checkbox.grid(row=3, column=2, columnspan=1, sticky="nsew")
+
+    def enable_AI(self):
+        self.AI_enabled = not self.AI_enabled
+        print(self.AI_enabled)
     def on_click(self, index):
         try:
             self.state.make_move(index, self.current_player)
