@@ -50,6 +50,7 @@ class TicTacToeGUI:
             else:
                 messagebox.showinfo("Game Over", f"{self.current_player} wins!")
             self.disable_all_buttons()
+            return
         else:
             self.current_player = "O" if self.current_player == "X" else "X"
 
