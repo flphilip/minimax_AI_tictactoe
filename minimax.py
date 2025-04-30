@@ -9,48 +9,49 @@ def alpha_beta_search(starting_position, alpha, beta):
 def generate_children(state, player):
     children = []
     for move in state.possible_moves:
-        new_State = copy.deepcopy(state)
-        new_State.make_move(move, player)
-        children.append(new_State)
+        new_state = copy.deepcopy(state)
+        new_state.make_move(move, player)
+        children.append((new_state, move))
     return children
+
 
 def minimax(starting_position: State, maxPlayer: bool):
     if starting_position.is_terminal:
         if starting_position.draw:
             return (0, starting_position.last_move)
         winner = starting_position.winner
-        if (winner == "O"):
-            return (1, starting_position.last_move)  
-        else:
-            return (-1, starting_position.last_move) 
+        return (1, starting_position.last_move) if winner == "O" else (-1, starting_position.last_move)
+
     next_player = "O" if maxPlayer else "X"
     children = generate_children(starting_position, next_player)
-    move = -1
 
     if maxPlayer:
         eval = -math.inf
-        for child in children:
-            child_eval, child_move = minimax(child,  False)
+        best_move = None
+        for child_state, move_used in children:
+            child_eval, _ = minimax(child_state, False)
             if child_eval > eval:
                 eval = child_eval
-                move = child_move
+                best_move = move_used
     else:
         eval = math.inf
-        for child in children:
-            child_eval, child_move = minimax(child,  True)
+        best_move = None
+        for child_state, move_used in children:
+            child_eval, _ = minimax(child_state, True)
             if child_eval < eval:
                 eval = child_eval
-                move = child_move
+                best_move = move_used
 
-    return (eval, move)
+    return (eval, best_move)
+
 
 def main():
     game = State()
-    game.make_move(8,"O")
-    game.make_move(4,"X")
-    game.make_move(7,"O")
-    game.make_move(6,"X")
-    game.make_move(1,"O")
+    # game.make_move(8,"O")
+    # game.make_move(4,"X")
+    # game.make_move(7,"O")
+    # game.make_move(6,"X")
+    # game.make_move(1,"O")
     # game.make_move(0,"X")
     # game.make_move(1,"O")
     # children = generate_children(game, "X")
