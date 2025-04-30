@@ -10,16 +10,19 @@ class TicTacToeGUI:
         self.state = State()
         self.current_player = "X"
         self.buttons = []
+        
+
+        font = ("Helvetica", 24, "bold")
 
         # Create the 3x3 button grid
         for i in range(9):
-            btn = tk.Button(root, text=" ", width=10, height=4,
+            btn = tk.Button(root, text=" ", font=font, bg="lightgray", activebackground="lightblue", width=10, height=4,
                             command=lambda idx=i: self.on_click(idx))
             btn.grid(row=i // 3, column=i % 3)
             self.buttons.append(btn)
 
         # Reset button
-        self.reset_button = tk.Button(root, text="Reset", command=self.reset_game)
+        self.reset_button = tk.Button(root, font=font, text="Reset", command=self.reset_game)
         self.reset_button.grid(row=3, column=0, columnspan=3, sticky="nsew")
 
     def on_click(self, index):
@@ -27,8 +30,7 @@ class TicTacToeGUI:
             self.state.make_move(index, self.current_player)
         except Exception:
             print("illegal move")
-            return  # illegal move
-
+            return
         self.buttons[index]['text'] = self.current_player
         self.buttons[index]['state'] = 'disabled'
 
@@ -42,6 +44,7 @@ class TicTacToeGUI:
             self.current_player = "O" if self.current_player == "X" else "X"
 
     def disable_all_buttons(self):
+        # does not effect reset button
         for btn in self.buttons:
             btn['state'] = 'disabled'
 
