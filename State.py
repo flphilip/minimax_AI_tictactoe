@@ -19,11 +19,6 @@ class State:
         self.last_move = pos
         self.position[pos] = player
         self.possible_moves.remove(pos)
-        if self.possible_moves == []:
-            self.is_terminal = True
-            self.draw = True
-
-
        
         row_idx = pos // 3
         col_idx = pos % 3
@@ -38,6 +33,11 @@ class State:
         if has_won: 
             self.is_terminal = True
             self.winner = player
+            return
+
+        if self.possible_moves == []:
+            self.is_terminal = True
+            self.draw = True
 
     def print_board(self):
         for i in range(3):
