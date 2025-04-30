@@ -1,6 +1,8 @@
 
 class State:
-    def __init__(self, position=["  "] * 9):
+    def __init__(self, position=None):
+        if position is None:
+            position = [" "] * 9
         if len(position) != 9:
             raise Exception("Invalid position was entered")
         self.position = position
@@ -43,18 +45,17 @@ class State:
             b = self.position[i*3 + 1]
             c = self.position[i*3 + 2]
             print(f"{a} | {b} | {c}")
-            if i != 2: print("------------")
+            if i != 2: print("-----------")
 
 
 if __name__ == "__main__":
-    felix_game = State()
-    felix_game.make_move(8,0)
-    felix_game.make_move(4,1)
-    felix_game.make_move(6,0)
-    felix_game.make_move(7,1)
-    felix_game.make_move(5,0)
-    felix_game.make_move(1,1)
+    game = State()
+    game.make_move(8,"O")
+    game.make_move(4,"X")
+    game.make_move(5,"O")
+    game.make_move(2,"X")
+    game.make_move(3,"O")
 
-    print(felix_game.possible_moves)
-    felix_game.print_board()
-    print(felix_game.winner)
+    print(game.possible_moves)
+    game.print_board()
+    print(game.winner)
