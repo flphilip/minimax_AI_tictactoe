@@ -22,7 +22,7 @@ def minimax(starting_position: State, maxPlayer: bool):
         winner = starting_position.winner
         return (1, starting_position.last_move) if winner == "O" else (-1, starting_position.last_move)
 
-    next_player = "O" if maxPlayer else "X"
+    next_player = "X" if maxPlayer else "O"
     children = generate_children(starting_position, next_player)
 
     if maxPlayer:
@@ -47,9 +47,9 @@ def minimax(starting_position: State, maxPlayer: bool):
 
 def main():
     game = State()
-    # game.make_move(8,"O")
-    # game.make_move(4,"X")
-    # game.make_move(7,"O")
+    game.make_move(8,"O")
+    game.make_move(4,"X")
+    game.make_move(7,"O")
     # game.make_move(6,"X")
     # game.make_move(1,"O")
     # game.make_move(0,"X")
@@ -63,7 +63,7 @@ def main():
     print("Winner", game.winner)
     game.print_board()
 
-    print(minimax(game,maxPlayer=True))
+    print(minimax(game,maxPlayer=False))
     # print(alpha_beta_search(begin, 2, - math.inf, math.inf))
 
 

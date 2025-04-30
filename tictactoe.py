@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from State import State
+from minimax import *
 
 class TicTacToeGUI:
     def __init__(self, root):
@@ -33,6 +34,7 @@ class TicTacToeGUI:
     def enable_AI(self):
         self.AI_enabled = not self.AI_enabled
         print(self.AI_enabled)
+
     def on_click(self, index):
         try:
             self.state.make_move(index, self.current_player)
@@ -50,6 +52,26 @@ class TicTacToeGUI:
             self.disable_all_buttons()
         else:
             self.current_player = "O" if self.current_player == "X" else "X"
+
+        if self.AI_enabled:
+            eval, move = minimax(self.state, maxPlayer=False)
+            print(eval, move)
+            try:
+                self.state.make_move(move, self.current_player)
+            except Exception:
+                print("illegal move")
+                return
+            self.buttons[move]['text'] = self.current_player
+            self.buttons[move]['state'] = 'disabled'
+
+            if self.state.is_terminal:
+                if self.state.draw:
+                    messagebox.showinfo("Game Over", "It's a draw!")
+                else:
+                    messagebox.showinfo("Game Over", f"{self.current_player} wins!")
+                self.disable_all_buttons()
+            else:
+                self.current_player = "O" if self.current_player == "X" else "X"
 
     def disable_all_buttons(self):
         # does not effect reset button
