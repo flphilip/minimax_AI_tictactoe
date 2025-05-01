@@ -23,7 +23,7 @@ class TicTacToeGUI:
             self.buttons.append(btn)
 
         # Reset button
-        self.reset_button = tk.Button(root, font=font, text="Reset", command=self.reset_game)
+        self.reset_button = tk.Button(root, font=font, text="Reset",bg="gray", command=self.reset_game)
         self.reset_button.grid(row=3, column=0, columnspan=2, sticky="nsew")
 
         # turn on AI checkbox
@@ -35,34 +35,20 @@ class TicTacToeGUI:
         self.AI_enabled = not self.AI_enabled
         print(self.AI_enabled)
         if self.current_player == "O":
-            self.make_ai_move()
+            eval, move = minimax(self.state, maxPlayer=False)
+            print(eval, move)
+            self.make_move(move)
 
 
     def on_click(self, index):
-        try:
-            self.state.make_move(index, self.current_player)
-        except Exception:
-            print("illegal move")
-            return
-        self.buttons[index]['text'] = self.current_player
-        self.buttons[index]['state'] = 'disabled'
-
-        if self.state.is_terminal:
-            if self.state.draw:
-                messagebox.showinfo("Game Over", "It's a draw!")
-            else:
-                messagebox.showinfo("Game Over", f"{self.current_player} wins!")
-            self.disable_all_buttons()
-            return
-        else:
-            self.current_player = "O" if self.current_player == "X" else "X"
+        self.make_move(index)
 
         if self.AI_enabled:
-            return self.make_ai_move()
+            eval, move = minimax(self.state, maxPlayer=False)
+            print(eval, move)
+            return self.make_move(move)
 
-    def make_ai_move(self):
-        eval, move = minimax(self.state, maxPlayer=False)
-        print(eval, move)
+    def make_move(self, move):
         try:
             self.state.make_move(move, self.current_player)
         except Exception:
