@@ -34,6 +34,9 @@ class TicTacToeGUI:
     def enable_AI(self):
         self.AI_enabled = not self.AI_enabled
         print(self.AI_enabled)
+        if self.current_player == "O":
+            self.make_ai_move()
+
 
     def on_click(self, index):
         try:
@@ -55,24 +58,27 @@ class TicTacToeGUI:
             self.current_player = "O" if self.current_player == "X" else "X"
 
         if self.AI_enabled:
-            eval, move = minimax(self.state, maxPlayer=False)
-            print(eval, move)
-            try:
-                self.state.make_move(move, self.current_player)
-            except Exception:
-                print("illegal move")
-                return
-            self.buttons[move]['text'] = self.current_player
-            self.buttons[move]['state'] = 'disabled'
+            return self.make_ai_move()
 
-            if self.state.is_terminal:
-                if self.state.draw:
-                    messagebox.showinfo("Game Over", "It's a draw!")
-                else:
-                    messagebox.showinfo("Game Over", f"{self.current_player} wins!")
-                self.disable_all_buttons()
+    def make_ai_move(self):
+        eval, move = minimax(self.state, maxPlayer=False)
+        print(eval, move)
+        try:
+            self.state.make_move(move, self.current_player)
+        except Exception:
+            print("illegal move")
+            return
+        self.buttons[move]['text'] = self.current_player
+        self.buttons[move]['state'] = 'disabled'
+
+        if self.state.is_terminal:
+            if self.state.draw:
+                messagebox.showinfo("Game Over", "It's a draw!")
             else:
-                self.current_player = "O" if self.current_player == "X" else "X"
+                messagebox.showinfo("Game Over", f"{self.current_player} wins!")
+            self.disable_all_buttons()
+        else:
+            self.current_player = "O" if self.current_player == "X" else "X"
 
     def disable_all_buttons(self):
         # does not effect reset button
