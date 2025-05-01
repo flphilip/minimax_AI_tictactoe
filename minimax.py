@@ -11,7 +11,7 @@ def generate_children(state, player):
     for move in state.possible_moves:
         new_State = copy.deepcopy(state)
         new_State.make_move(move, player)
-        children.append(new_State)
+        children.append((new_State, move))
     return children
 
 
@@ -30,18 +30,18 @@ def minimax(starting_position: State, maxPlayer: bool):
 
     if maxPlayer:
         eval = -math.inf
-        for child in children:
+        for child, used_move in children:
             child_eval, child_move = minimax(child,  False)
             if child_eval > eval:
                 eval = child_eval
-                move = child_move
+                move = used_move
     else:
         eval = math.inf
-        for child in children:
+        for child, used_move in children:
             child_eval, child_move = minimax(child,  True)
             if child_eval < eval:
                 eval = child_eval
-                move = child_move
+                move = used_move
 
     return (eval, move)
 

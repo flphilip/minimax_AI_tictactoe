@@ -50,12 +50,8 @@ class State:
 
 if __name__ == "__main__":
     game = State()
-    game.make_move(8,"O")
-    game.make_move(4,"X")
-    game.make_move(5,"O")
-    game.make_move(2,"X")
-    game.make_move(3,"O")
-
+    game.make_move(8,"X")
+    print(game.last_move)
     print(game.possible_moves)
     game.print_board()
     print(game.winner)
