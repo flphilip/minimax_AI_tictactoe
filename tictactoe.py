@@ -43,7 +43,7 @@ class TicTacToeGUI:
     def on_click(self, index):
         self.make_move(index)
 
-        if self.AI_enabled:
+        if self.AI_enabled and not self.state.is_terminal:
             eval, move = minimax(self.state, maxPlayer=False)
             print(eval, move)
             return self.make_move(move)
