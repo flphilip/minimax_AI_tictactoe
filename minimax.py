@@ -20,7 +20,7 @@ def minimax(starting_position: State, maxPlayer: bool):
         if starting_position.draw:
             return (0, starting_position.last_move)
         winner = starting_position.winner
-        if (winner == "O"):
+        if (winner == "X"):
             return (1, starting_position.last_move)  
         else:
             return (-1, starting_position.last_move) 
