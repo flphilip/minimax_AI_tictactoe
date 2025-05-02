@@ -35,7 +35,8 @@ class TicTacToeGUI:
         self.AI_enabled = not self.AI_enabled
         print(self.AI_enabled)
         if self.current_player == "O":
-            eval, move = minimax(self.state, maxPlayer=False)
+            # eval, move = minimax(self.state, maxPlayer=False)
+            eval, move = alpha_beta_search(self.state, False)
             print(eval, move)
             self.make_move(move)
 
@@ -44,7 +45,8 @@ class TicTacToeGUI:
         self.make_move(index)
 
         if self.AI_enabled and not self.state.is_terminal:
-            eval, move = minimax(self.state, maxPlayer=False)
+            # eval, move = minimax(self.state, maxPlayer=False)
+            eval, move = alpha_beta_search(self.state, False)
             print(eval, move)
             return self.make_move(move)
 
