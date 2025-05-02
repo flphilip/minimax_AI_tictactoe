@@ -63,8 +63,10 @@ def alpha_beta_search(starting_position: State, maxPlayer: bool, alpha=- math.in
             if child_eval > eval:
                 eval = child_eval
                 move = used_move
+            # update alpha to the best evaluation of a child that has been found
             alpha = max(alpha, child_eval)
             if beta <= alpha:
+                # cut off branch since it will not be picked
                 break
     else:
         eval = math.inf
