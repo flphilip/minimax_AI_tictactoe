@@ -1,3 +1,5 @@
 Implementation of minimax algorithm for tic tac toe, with included game GUI
 
 Two year old project for a university ai tournament, picked back up and finished, and added a little tkinter gui to play against the computer.
+
+There is a second unfinished branch which adds another AI, a q learning agent, but the minimax is broken there currently
