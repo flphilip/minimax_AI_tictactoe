@@ -11,12 +11,14 @@ class State:
         self.last_move = None
         self.draw = False
         self.is_terminal = False
+        self.current_player = "X"
 
-    def make_move(self, pos, player:str):
+    def make_move(self, pos):
         if pos not in self.possible_moves:
             raise Exception("Invalid move")
 
         self.last_move = pos
+        player = self.current_player
         self.position[pos] = player
         self.possible_moves.remove(pos)
        
@@ -39,6 +41,8 @@ class State:
             self.is_terminal = True
             self.draw = True
 
+        self.current_player = "X" if self.current_player == "O" else "O"
+
     def print_board(self):
         for i in range(3):
             a = self.position[i*3 + 0]
@@ -47,11 +51,26 @@ class State:
             print(f"{a} | {b} | {c}")
             if i != 2: print("-----------")
 
+    def encoding(self):
+        st = ""
+        for cell in self.position:
+            st = st + str(cell)
+        return st
+    
+    def reward(self):
+        # for player 2
+        if self.winner == "X":
+            return -2
+        if self.winner == "O":
+            return 1
+        else: return 0.5
+
 
 if __name__ == "__main__":
     game = State()
     game.make_move(8,"X")
     print(game.last_move)
+    print(game.encoding())
     print(game.possible_moves)
     game.print_board()
     print(game.winner)

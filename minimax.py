@@ -6,7 +6,7 @@ def generate_children(state, player):
     children = []
     for move in state.possible_moves:
         new_State = copy.deepcopy(state)
-        new_State.make_move(move, player)
+        new_State.make_move(move)
         children.append((new_State, move))
     return children
 
