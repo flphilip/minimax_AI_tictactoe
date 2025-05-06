@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from State import State
+from agent_player import *
 from minimax import *
 
 class TicTacToeGUI:
@@ -9,8 +10,9 @@ class TicTacToeGUI:
         self.root.title("Tic Tac Toe")
         
         self.state = State()
-        self.current_player = "X"
+        self.current_player = self.state.current_player
         self.buttons = []
+        self.ai_player = q_learning_player()
         
 
         font = ("Helvetica", 24, "bold")
@@ -24,35 +26,43 @@ class TicTacToeGUI:
 
         # Reset button
         self.reset_button = tk.Button(root, font=font, text="Reset",bg="gray", command=self.reset_game)
-        self.reset_button.grid(row=3, column=0, columnspan=2, sticky="nsew")
+        self.reset_button.grid(row=3, column=0, columnspan=1, sticky="nsew")
 
-        # turn on AI checkbox
-        self.AI_enabled = False
-        self.checkbox = tk.Checkbutton(root, font=font, text="Turn on AI", command=self.enable_AI)
-        self.checkbox.grid(row=3, column=2, columnspan=1, sticky="nsew")
+        # AI selection
+        self.ai_choice = ai_choice = tk.StringVar(value="Off")
+        options = ["Off", "Minimax", "Q Learning"]
+        self.dropdown = tk.OptionMenu(root,  self.ai_choice,*options)
+        self.dropdown.config(font=font)  # set font for displayed label
+        self.dropdown["menu"].config(font=font)  # set font for dropdown menu items
+        self.dropdown.grid(row=3, column=1, columnspan=1, sticky="nsew")
 
-    def enable_AI(self):
-        self.AI_enabled = not self.AI_enabled
-        print(self.AI_enabled)
-        if self.current_player == "O":
-            # eval, move = minimax(self.state, maxPlayer=False)
-            eval, move = alpha_beta_search(self.state, False)
-            print(eval, move)
-            self.make_move(move)
+        # training button
+        self.training_button = tk.Button(root, font=font, text="train", command=self.train)
+        self.training_button.grid(row=3, column=2, sticky="nsew", columnspan=1)
+
+    def train(self):
+        self.ai_player.train()
+        print("Done training!")
+        # print(self.ai_player.q_table)
 
 
     def on_click(self, index):
         self.make_move(index)
 
-        if self.AI_enabled and not self.state.is_terminal:
-            # eval, move = minimax(self.state, maxPlayer=False)
-            eval, move = alpha_beta_search(self.state, False)
-            print(eval, move)
-            return self.make_move(move)
+        selected_ai = self.ai_choice.get()
+        if not self.state.is_terminal and self.current_player == "O":
+            if selected_ai == "Q Learning":
+                move = self.ai_player.choose_action(self.state)
+                self.make_move(move)
+            elif selected_ai == "Minimax":
+                eval, move  = alpha_beta_search(self.state, maxPlayer=False)
+                self.make_move(move)
+        # No move if "Off"
+
 
     def make_move(self, move):
         try:
-            self.state.make_move(move, self.current_player)
+            self.state.make_move(move)
         except Exception:
             print("illegal move")
             return
