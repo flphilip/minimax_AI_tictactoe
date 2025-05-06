@@ -32,6 +32,8 @@ class TicTacToeGUI:
         self.ai_choice = ai_choice = tk.StringVar(value="Off")
         options = ["Off", "Minimax", "Q Learning"]
         self.dropdown = tk.OptionMenu(root,  self.ai_choice,*options)
+        self.dropdown.config(font=font)  # set font for displayed label
+        self.dropdown["menu"].config(font=font)  # set font for dropdown menu items
         self.dropdown.grid(row=3, column=1, columnspan=1, sticky="nsew")
 
         # training button
