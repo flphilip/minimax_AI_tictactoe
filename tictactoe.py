@@ -48,13 +48,12 @@ class TicTacToeGUI:
         self.make_move(index)
 
         selected_ai = self.ai_choice.get()
-
         if not self.state.is_terminal and self.current_player == "O":
             if selected_ai == "Q Learning":
                 move = self.ai_player.choose_action(self.state)
                 self.make_move(move)
             elif selected_ai == "Minimax":
-                move, _  = alpha_beta_search(self.state, maxPlayer=False)
+                eval, move  = alpha_beta_search(self.state, maxPlayer=False)
                 self.make_move(move)
         # No move if "Off"
 
